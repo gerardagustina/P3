@@ -14,18 +14,38 @@ Ejercicios básicos
   `get_pitch`.
 
    * Complete el cálculo de la autocorrelación e inserte a continuación el código correspondiente.
+   ![alt text](image.png)
+
+   Este código calcula la autocorrelación de una secuencia de datos x y la almacena en un vector r. La autocorrelación es una medida de la similitud de una señal consigo misma desplazada en el tiempo. El proceso se realiza de la siguiente manera:
+
+ Se inicializa el vector r con ceros,se itera sobre cada elemento de r. Para cada elemento r[l], se calcula la autocorrelación utilizando su fórmula:
+     Donde N es el tamaño de la secuencia x, x[n] es un elemento de la secuencia y l es el desplazamiento.
+Después se ajusta r[l] dividiéndolo por el tamaño de la secuencia x. Y por ultimo se verifica si el primer elemento de r es cero y, de ser así, se establece en un valor muy pequeño (1e-10) para evitar problemas al calcular log() o dividir por cero.
+
+En resumen, este código implementa un cálculo eficiente de la autocorrelación de una secuencia de datos.
 
    * Inserte una gŕafica donde, en un *subplot*, se vea con claridad la señal temporal de un segmento de
      unos 30 ms de un fonema sonoro y su periodo de pitch; y, en otro *subplot*, se vea con claridad la
 	 autocorrelación de la señal y la posición del primer máximo secundario.
+
+   ![alt text](image-4.png)
 
 	 NOTA: es más que probable que tenga que usar Python, Octave/MATLAB u otro programa semejante para
 	 hacerlo. Se valorará la utilización de la biblioteca matplotlib de Python.
 
    * Determine el mejor candidato para el periodo de pitch localizando el primer máximo secundario de la
      autocorrelación. Inserte a continuación el código correspondiente.
+     ![alt text](image-1.png)
 
+Este código busca el desplazamiento (lag) correspondiente al valor máximo de la autocorrelación, pero dentro de un rango específico determinado por npitch_min y npitch_max. Itera sobre los valores de autocorrelación en ese rango y encuentra el valor máximo. Luego, calcula el lag asociado con ese valor máximo y lo devuelve como resultado.
    * Implemente la regla de decisión sonoro o sordo e inserte el código correspondiente.
+
+   ![alt text](image-2.png)
+
+   Este código determina si un sonido es sonoro o no basándose en tres criterios: la normalización del valor máximo de la autocorrelación (rmaxnorm), la relación entre el primer pico y el pico central (r1norm), y la tasa de cruce por cero (zcr). 
+
+Si al menos dos de estos criterios cumplen sus umbrales respectivos (umbral_rlag, umbral_r1r0, umbral_zcr), entonces se considera que el sonido es sonoro y retorna false.
+De lo contrario, si menos de dos criterios cumplen sus umbrales, se considera que el sonido es sordo y retorna true.
 
    * Puede serle útil seguir las instrucciones contenidas en el documento adjunto `código.pdf`.
 
@@ -56,6 +76,8 @@ Ejercicios básicos
     y el *score* TOTAL proporcionados por `pitch_evaluate` en la evaluación de la base de datos 
 	`pitch_db/train`..
 
+  ![alt text](image-3.png)
+
 Ejercicios de ampliación
 ------------------------
 
@@ -69,13 +91,19 @@ Ejercicios de ampliación
   * Inserte un *pantallazo* en el que se vea el mensaje de ayuda del programa y un ejemplo de utilización
     con los argumentos añadidos.
 
+    ![alt text](image-5.png)
+
 - Implemente las técnicas que considere oportunas para optimizar las prestaciones del sistema de estimación
   de pitch.
 
   Entre las posibles mejoras, puede escoger una o más de las siguientes:
 
   * Técnicas de preprocesado: filtrado paso bajo, diezmado, *center clipping*, etc.
+  Center clipping:
+  ![alt text](image-6.png)
   * Técnicas de postprocesado: filtro de mediana, *dynamic time warping*, etc.
+  Filtro de mediana:
+  ![alt text](image-7.png)
   * Métodos alternativos a la autocorrelación: procesado cepstral, *average magnitude difference function*
     (AMDF), etc.
   * Optimización **demostrable** de los parámetros que gobiernan el estimador, en concreto, de los que
